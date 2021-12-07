@@ -4,8 +4,17 @@ import numpy as np
 import altair as alt
 from utils import load_data, load_xgboost_model, footer
 
-product_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
+pred_2017_32week = np.load('data/pred_2017_32week.npy').round(2)*100
+true_2017_32week = np.load('data/true_2017_32week.npy').round(2)*100
+true_2016_week = np.load('data/true_2016_week.npy').round(2)*100
+
+product_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 default_list = ['A', 'B', 'C', 'D']
+
+df_pred_2017_32week = pd.DataFrame(pred_2017_32week.T, columns = product_list, index=pd.RangeIndex(32, name='x'))
+df_true_2017_32week = pd.DataFrame(true_2017_32week.T, columns = product_list, index=pd.RangeIndex(32, name='x'))
+df_true_2016_week = pd.DataFrame(true_2016_week.T, columns = product_list, index=pd.RangeIndex(51, name='x'))
+
 ########################### HEADING ###########################
 st.title("ỨNG DỤNG AI TỐI ƯU LƯỢNG HÀNG TỒN KHO")
 
@@ -18,9 +27,8 @@ st.subheader("Sản phẩm")
 product_options = st.multiselect("Chọn sản phẩm",product_list,default_list)
 
 # Historical data
-time = 54
-source1 = pd.DataFrame(np.cumsum(np.random.randn(time, len(product_options)), 0).round(2),
-                    columns=product_options, index=pd.RangeIndex(time, name='x'))
+time = 51
+source1 = df_true_2016_week
 source = source1.reset_index().melt('x', var_name='category', value_name='y')
 
 st.subheader("Thông tin bán hàng quá khứ")
@@ -33,15 +41,15 @@ st.subheader(f"Dự đoán nhu cầu sản phẩm trong 2 tuần tới")
 st.write('Tuần thứ nhất')
 col_tuple = st.columns(len(product_options))
 for i, col in enumerate(col_tuple):
-    predict_result = 0
-    last_result = 0
-    col.metric(product_options[i], predict_result, predict_result-last_result)
+    predict_result = pred_2017_32week[i, 0]
+    last_result = true_2016_week[i,-1]
+    col.metric(product_options[i], predict_result.round(2), (predict_result-last_result.round(2)))
 st.write('Tuần thứ hai')
 col_tuple = st.columns(len(product_options))
 for i, col in enumerate(col_tuple):
-    predict_result = 0
-    last_result = 0
-    col.metric(product_options[i], predict_result, predict_result-last_result)
+    predict_result = pred_2017_32week[i, 1]
+    last_result = true_2016_week[i,-1]
+    col.metric(product_options[i], predict_result.round(2), (predict_result-last_result.round(2)))
 ########################## INV OPTIM ##########################
 st.header(f"Dự đoán số lượng tồn kho tối ưu")
 # Current inventory
