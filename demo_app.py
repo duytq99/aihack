@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd 
 import numpy as np
-import matplotlib.pyplot as plt
 import altair as alt
 from utils import load_data, load_xgboost_model, footer
 
