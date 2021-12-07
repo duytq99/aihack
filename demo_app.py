@@ -57,6 +57,6 @@ for i, col in enumerate(col_tuple):
     predict_result = last_result + np.random.randint(0, 20)
     col.metric(product_options[i], int(last_result+predict_result), int(predict_result))
 # Evaluation metrics
-st.subheader(f"Chỉ số đánh giá")
+# st.subheader(f"Chỉ số đánh giá")
 ########################### FOOTER ############################
 footer()
