@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import altair as alt
-import seaborn as sns
 from utils import load_data, load_xgboost_model, footer
 
 product_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
@@ -53,7 +52,7 @@ st.bar_chart(inv.T, use_container_width=True)
 # Optimal order quantity
 st.subheader(f"Tồn kho tối ưu")
 col_tuple = st.columns(len(product_options))
-print(inv)
+# print(inv)
 for i, col in enumerate(col_tuple):
     last_result = inv[product_options[i]].values[0]
     predict_result = last_result + np.random.randint(0, 20)
