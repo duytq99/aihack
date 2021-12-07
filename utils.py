@@ -77,8 +77,8 @@ def layout(*args):
 def footer():
     myargs = [
         
-        image('http://shtpic.org/wp-content/uploads/2021/05/logo.png',
-              width=px(100)),
+        # image('http://shtpic.org/wp-content/uploads/2021/05/logo.png',
+        #       width=px(100)),
         image('https://mltechsoft.com/wp-content/uploads/2021/03/mltech-300x124.png',
               width=px(100)),
         br(),
