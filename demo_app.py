@@ -28,7 +28,7 @@ product_options = st.multiselect("Chọn sản phẩm",product_list,default_list
 
 # Historical data
 time = 51
-source1 = df_true_2016_week
+source1 = df_true_2016_week[product_options]
 source = source1.reset_index().melt('x', var_name='category', value_name='y')
 
 st.subheader("Thông tin bán hàng quá khứ")
@@ -43,13 +43,13 @@ col_tuple = st.columns(len(product_options))
 for i, col in enumerate(col_tuple):
     predict_result = pred_2017_32week[i, 0]
     last_result = true_2016_week[i,-1]
-    col.metric(product_options[i], predict_result.round(2), (predict_result-last_result.round(2)))
+    col.metric(product_options[i], predict_result.round(2), (predict_result-last_result).round(2))
 st.write('Tuần thứ hai')
 col_tuple = st.columns(len(product_options))
 for i, col in enumerate(col_tuple):
     predict_result = pred_2017_32week[i, 1]
     last_result = true_2016_week[i,-1]
-    col.metric(product_options[i], predict_result.round(2), (predict_result-last_result.round(2)))
+    col.metric(product_options[i], predict_result.round(2), (predict_result-last_result).round(2))
 ########################## INV OPTIM ##########################
 st.header(f"Dự đoán số lượng tồn kho tối ưu")
 # Current inventory
